@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Login and Home</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            /* White background for body */
+        }
+
+        .container {
+            display: flex;
+            height: 100%;
+        }
+
+        .illustration {
+            flex: 1;
+            background-color: #f0f0f0;
+            /* Light grey background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .login-form {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            /* White background for login form */
+        }
+
+        .form-container {
+            width: 300px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            /* White form background */
+        }
+
+        h2 {
+            color: #333;
+            /* Dark grey for text */
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            /* Dark grey for labels */
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #c88b3a;
+            /* Your chosen color for buttons */
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #8a5e2f;
+            /* Darker shade for button hover */
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .forgot-password a {
+            color: #333;
+            /* Dark grey for links */
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .book {
+            width: 40px;
+            height: 60px;
+            background-color: #c88b3a;
+            /* Your chosen color for book animation */
+            position: absolute;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .book::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 100%;
+            background-color: #fff;
+            /* White strip in book */
+            left: 5px;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        #homePage {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background-color: #fff;
+            /* White background for home page */
+            text-align: center;
+        }
+
+        #homePage h1 {
+            color: #333;
+            /* Dark grey text for headings */
+            margin-bottom: 20px;
+        }
+
+        #homePage p {
+            color: #666;
+            /* Medium grey for paragraph text */
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        #logoutButton {
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            /* Red button for logout */
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #logoutButton:hover {
+            background-color: #c0392b;
+            /* Darker red for hover */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loginPage" class="container">
+        <div class="illustration" id="bookshelf"></div>
+        <div class="login-form">
+            <div class="form-container">
+                <h2>Login to Your Library</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="homePage">
+        <h1>Welcome to Your Library</h1>
+        <p>Explore our vast collection of books, articles, and resources. Happy reading!</p>
+        <button id="logoutButton">Logout</button>
+    </div>
+
+    <script>
+        // Function to create animated floating book elements
+        function createBook(x, y, delay) {
+            const book = document.createElement('div');
+            book.className = 'book';
+            book.style.left = `${x}px`;
+            book.style.top = `${y}px`;
+            book.style.animationDelay = `${delay}s`;
+            book.style.backgroundColor = ['#c88b3a', '#2ecc71', '#e74c3c', '#f39c12'][Math.floor(Math.random() * 4)];
+            return book;
+        }
+
+        // Populate the bookshelf area with floating books
+        const bookshelf = document.getElementById('bookshelf');
+        for (let i = 0; i < 20; i++) {
+            const x = Math.random() * (bookshelf.offsetWidth - 40);
+            const y = Math.random() * (bookshelf.offsetHeight - 60);
+            const delay = Math.random() * 2;
+            bookshelf.appendChild(createBook(x, y, delay));
+        }
+
+        // Event listener for the login form submission
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent form from submitting the traditional way
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Check for both username and password, and ensure password is at least 8 characters long
+            if (!username || !password) {
+                alert('Please enter both username and password.');
+            } else if (password.length < 8) {
+                alert('Password must be at least 8 characters long.');
+            } else {
+                // Redirect to the home page after successful login
+                window.location.href = 'http://127.0.0.1:5500/index.home.html';
+            }
+        });
+
+        // Event listener for the logout button click
+        document.getElementById('logoutButton').addEventListener('click', function () {
+            // Display the login page and reset the login form
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        });
+
+    </script>
+</body>
+
+</html>
