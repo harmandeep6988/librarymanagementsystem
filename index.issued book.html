@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issued Books - Library</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Global styles */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            /* White background */
+        }
+
+        header {
+            background-color: #c88b3a;
+            /* Your chosen color for the header */
+            color: #fff;
+            /* White text */
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            background-color: #333;
+            /* Dark grey background for navbar */
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            /* White text */
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #c88b3a;
+            /* Highlighted navbar item */
+            color: #333;
+        }
+
+        .container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            max-width: 1200px;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            /* Light grey border */
+            text-align: left;
+        }
+
+        table th {
+            background-color: #c88b3a;
+            color: white;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Resetting default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: grey;
+            color: #333;
+        }
+
+        /* Section Headings */
+        h2 {
+            color: #c88b3a;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .status-returned {
+            background-color: #4CAF50;
+            /* Green for returned */
+        }
+
+        .status-due {
+            background-color: #FF5722;
+            /* Red for due */
+        }
+
+        .issue-form,
+        .return-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        .issue-form h2,
+        .return-form h2 {
+            margin-bottom: 20px;
+        }
+
+        .issue-form label,
+        .return-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .issue-form input,
+        .return-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .issue-form button,
+        .return-form button {
+            padding: 10px 20px;
+            background-color: #c88b3a;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .issue-form button:hover,
+        .return-form button:hover {
+            background-color: #8a5e2f;
+            /* Darker shade for button hover */
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+
+            .issue-form,
+            .return-form {
+                padding: 15px;
+            }
+
+            .issue-form label,
+            .issue-form input,
+            .return-form label,
+            .return-form select {
+                font-size: 14px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            nav ul li {
+                margin: 5px 0;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            table th,
+            table td {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .issue-form,
+            .return-form {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Issued Books</h1>
+        <p>Manage and track your issued library books</p>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="http://127.0.0.1:5500/index.home.html">Home</a></li>
+            <li><a href="http://127.0.0.1:5500/index.catalog.html">Catalog</a></li>
+            <li><a href="http://127.0.0.1:5500/index.issued%20book.html">Issued Books</a></li>
+            <li><a href="http://127.0.0.1:5500/index.contact%20us.html">Contact Us</a></li>
+            <li><a href="http://127.0.0.1:5500/index.login.html">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <section class="container">
+        <!-- Issued Books Table -->
+        <h2>Currently Issued Books</h2>
+        <table id="issuedBooksTable">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th>Issue Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Example Rows -->
+                <tr>
+                    <td>Harmandeep Singh</td>
+                    <td>Alone</td>
+                    <td>Morgan Maxwell</td>
+                    <td>2024-10-01</td>
+                    <td>2024-10-15</td>
+                    <td><span class="status status-returned">Returned</span></td>
+                </tr>
+                <tr>
+                    <td>Harmandeep Singh</td>
+                    <td>Engineering Physics</td>
+                    <td>B K Pandey</td>
+                    <td>2024-10-05</td>
+                    <td>2024-10-20</td>
+                    <td><span class="status status-due">Due</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Book Issue Form -->
+        <div class="issue-form">
+            <h2>Issue a New Book</h2>
+            <form id="issueForm">
+                <label for="student-name">Student Name</label>
+                <input type="text" id="student-name" name="student_name" required>
+
+                <label for="book-title">Book Title</label>
+                <input type="text" id="book-title" name="book_title" required>
+
+                <label for="author">Author</label>
+                <input type="text" id="author" name="author" required>
+
+                <label for="issue-date">Issue Date</label>
+                <input type="date" id="issue-date" name="issue_date" required>
+
+                <label for="return-date">Return Date</label>
+                <input type="date" id="return-date" name="return_date" required>
+
+                <button type="submit">Issue Book</button>
+            </form>
+        </div>
+
+        <!-- Book Return Form -->
+        <div class="return-form">
+            <h2>Return a Book</h2>
+            <form id="returnForm">
+                <label for="book-select">Select Book</label>
+                <select id="book-select" required>
+                    <!-- Options will be populated with books from the table -->
+                </select>
+                <button type="submit">Return Book</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Our Library | Keeping you connected with your books</p>
+    </footer>
+
+    <script>
+        // JavaScript for form submission and adding row to table
+        document.getElementById('issueForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent form from submitting
+
+            // Get form values
+            const studentName = document.getElementById('student-name').value.trim();
+            const bookTitle = document.getElementById('book-title').value.trim();
+            const author = document.getElementById('author').value.trim();
+            const issueDate = document.getElementById('issue-date').value;
+            const returnDate = document.getElementById('return-date').value;
+
+            // Create a new row in the table
+            const table = document.getElementById('issuedBooksTable').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+
+            // Insert cells into the new row
+            newRow.innerHTML = `
+                <td>${studentName}</td>
+                <td>${bookTitle}</td>
+                <td>${author}</td>
+                <td>${issueDate}</td>
+                <td>${returnDate}</td>
+                <td><span class="status status-due">Due</span></td>
+            `;
+
+            // Update the "Return Book" dropdown with the new book
+            updateReturnBookOptions();
+
+            // Reset the form
+            document.getElementById('issueForm').reset();
+        });
+
+        // JavaScript for returning books
+        document.getElementById('returnForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent form from submitting
+
+            const selectedBook = document.getElementById('book-select').value;
+
+            // Find the selected row in the table and update the status to 'Returned'
+            const rows = document.getElementById('issuedBooksTable').getElementsByTagName('tbody')[0].rows;
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                if (row.cells[1].textContent === selectedBook) {
+                    row.cells[5].innerHTML = '<span class="status status-returned">Returned</span>';
+                    break;
+                }
+            }
+
+            // Reset the return form
+            document.getElementById('returnForm').reset();
+        });
+
+        // Function to populate the return book dropdown
+        function updateReturnBookOptions() {
+            const select = document.getElementById('book-select');
+            const rows = document.getElementById('issuedBooksTable').getElementsByTagName('tbody')[0].rows;
+            select.innerHTML = ''; // Clear previous options
+
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const bookTitle = row.cells[1].textContent;
+                const option = document.createElement('option');
+                option.value = bookTitle;
+                option.textContent = bookTitle;
+                select.appendChild(option);
+            }
+        }
+
+        // Update the options on page load
+        window.onload = updateReturnBookOptions;
+    </script>
+
+</body>
+
+</html>

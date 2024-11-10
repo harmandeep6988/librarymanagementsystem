@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Catalog</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Global styles */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            /* White background */
+        }
+
+        header {
+            background-color: #c88b3a;
+            /* Your chosen color for the header */
+            color: #fff;
+            /* White text */
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            background-color: #333;
+            /* Dark grey background for navbar */
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            /* White text */
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #c88b3a;
+            color: black;
+            /* Highlighted navbar item */
+        }
+
+        /* Catalog Grid */
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        .catalog-item {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .catalog-item img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .catalog-item h3 {
+            font-size: 1.1rem;
+            color: #c88b3a;
+            margin-top: 0.5rem;
+        }
+
+        .catalog-item p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        /* Search and Filter Section */
+        .search-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .search-container input[type="text"] {
+            width: 70%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .search-container button {
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: none;
+            background-color: #c88b3a;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .filter-options {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .filter-options select {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 48%;
+        }
+
+        .container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            max-width: 1200px;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            /* Light grey border */
+            text-align: left;
+        }
+
+        table th {
+            background-color: #c88b3a;
+            color: white;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .status-returned {
+            background-color: #4CAF50;
+            /* Green for returned */
+        }
+
+        .status-due {
+            background-color: #FF5722;
+            /* Red for due */
+        }
+
+        .issue-form,
+        .return-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        .issue-form h2,
+        .return-form h2 {
+            margin-bottom: 20px;
+        }
+
+        .issue-form label,
+        .return-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .issue-form input,
+        .return-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .issue-form button,
+        .return-form button {
+            padding: 10px 20px;
+            background-color: #c88b3a;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .issue-form button:hover,
+        .return-form button:hover {
+            background-color: #8a5e2f;
+            /* Darker shade for button hover */
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Resetting default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: grey;
+            color: #333;
+        }
+
+        /* Hover effect on catalog items */
+        .catalog-item {
+            width: 200px;
+            margin: 20px;
+            display: inline-block;
+            vertical-align: top;
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            transition: transform 0.3s ease;
+        }
+
+        .catalog-item img {
+            width: 150px;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .catalog-item img:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+
+        .catalog-item:hover {
+            transform: scale(1.05);
+            background-color: #c88b3a;
+            color: #fff;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+
+            .issue-form,
+            .return-form {
+                padding: 15px;
+            }
+
+            .issue-form label,
+            .issue-form input,
+            .return-form label,
+            .return-form select {
+                font-size: 14px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            nav ul li {
+                margin: 5px 0;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            table th,
+            table td {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .issue-form,
+            .return-form {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Library Catalog</h1>
+        <p>Find your next read from our collection</p>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="http://127.0.0.1:5500/index.home.html">Home</a></li>
+            <li><a href="http://127.0.0.1:5500/index.catalog.html">Catalog</a></li>
+            <li><a href="http://127.0.0.1:5500/index.issued%20book.html">Issued Books</a></li>
+            <li><a href="http://127.0.0.1:5500/index.contact%20us.html">Contact Us</a></li>
+            <li><a href="http://127.0.0.1:5500/index.login.html">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Search and Filter Section -->
+    <section class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by title, author, or keyword">
+        <button onclick="searchBooks()">Search</button>
+        <div class="filter-options">
+            <select id="genreFilter" onchange="filterBooks()">
+                <option value="">Filter by Genre</option>
+                <option value="fiction">Fiction</option>
+                <option value="non-fiction">Non-Fiction</option>
+                <option value="science">Science</option>
+                <option value="programming">Programming</option>
+                <option value="history">History</option>
+            </select>
+            <select id="sortBy" onchange="sortBooks()">
+                <option value="">Sort by</option>
+                <option value="title">Title</option>
+                <option value="author">Author</option>
+                <option value="date">Date Published</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Catalog Grid -->
+    <section class="catalog" id="catalogContainer">
+        <!-- Catalog Item 1 -->
+        <div class="catalog-item">
+            <a href="http://127.0.0.1:5500/index.issued%20book.html">
+                <img src="1003w-QHBKwQnsgzs.webp" alt="Book Cover">
+            </a>
+            <h3>Alone</h3>
+            <p>Morgan Maxwell</p>
+            <p>Genre: Fiction</p>
+        </div>
+
+        <!-- Catalog Item 2 -->
+        <div class="catalog-item">
+            <a href="http://127.0.0.1:5500/index.issued%20book.html">
+                <img src="Free-Non-fiction-Book-Cover-Template-2x.jpg" alt="Book Cover">
+            </a>
+            <h3>Lonely Road We Travelled</h3>
+            <p>Katherine Moss</p>
+            <p>Genre: Non-Fiction</p>
+        </div>
+
+        <!-- Catalog Item 3 -->
+        <div class="catalog-item">
+            <a href="http://127.0.0.1:5500/index.issued%20book.html">
+                <img src="Screenshot 2024-11-05 003944.png" alt="Book Cover">
+            </a>
+            <h3>Engineering Physics</h3>
+            <p>B K Pandey</p>
+            <p>Genre: Science</p>
+        </div>
+
+        <!-- Catalog Item 4 -->
+        <div class="catalog-item">
+            <a href="http://127.0.0.1:5500/index.issued%20book.html">
+                <img src="71WUV+873eL._UF1000,1000_QL80_.jpg" alt="Book Cover">
+            </a>
+            <h3>Python Programming</h3>
+            <p>Andrew P McMohan</p>
+            <p>Genre: Programming</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Our Library | Keeping you connected with your books</p>
+    </footer>
+
+    <script>
+        // Sample data for catalog books
+        const books = [
+            { title: "Alone", author: "Morgan Maxwell", genre: "fiction", date: "2024-10-01", image: "1003w-QHBKwQnsgzs.webp" },
+            { title: "Lonely Road We Travelled", author: "Katherine Moss", genre: "non-fiction", date: "2022-06-15", image: "Free-Non-fiction-Book-Cover-Template-2x.jpg" },
+            { title: "Engineering Physics", author: "B K Pandey", genre: "science", date: "2023-09-25", image: "Screenshot 2024-11-05 003944.png" },
+            { title: "Python Programming", author: "Andrew P McMohan", genre: "programming", date: "2021-11-15", image: "71WUV+873eL._UF1000,1000_QL80_.jpg" }
+        ];
+
+        // Function to display catalog items
+        function displayCatalog(filteredBooks) {
+            const catalogContainer = document.getElementById('catalogContainer');
+            catalogContainer.innerHTML = ""; // Clear current catalog
+
+            filteredBooks.forEach(book => {
+                const catalogItem = document.createElement('div');
+                catalogItem.classList.add('catalog-item');
+                catalogItem.innerHTML = `
+                    <a href="http://127.0.0.1:5500/index.issued%20book.html">
+                        <img src="${book.image}" alt="Book Cover">
+                    </a>
+                    <h3>${book.title}</h3>
+                    <p>${book.author}</p>
+                    <p>Genre: ${book.genre}</p>
+                `;
+                catalogContainer.appendChild(catalogItem);
+            });
+        }
+
+        // Function to search books
+        function searchBooks() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const filteredBooks = books.filter(book => {
+                return book.title.toLowerCase().includes(searchInput) ||
+                    book.author.toLowerCase().includes(searchInput) ||
+                    book.genre.toLowerCase().includes(searchInput);
+            });
+            displayCatalog(filteredBooks);
+        }
+
+        // Function to filter books by genre
+        function filterBooks() {
+            const genreFilter = document.getElementById('genreFilter').value;
+            let filteredBooks = books;
+
+            if (genreFilter) {
+                filteredBooks = books.filter(book => book.genre === genreFilter);
+            }
+
+            displayCatalog(filteredBooks);
+        }
+
+        // Function to sort books
+        function sortBooks() {
+            const sortBy = document.getElementById('sortBy').value;
+            let sortedBooks = [...books];
+
+            if (sortBy === "title") {
+                sortedBooks.sort((a, b) => a.title.localeCompare(b.title));
+            } else if (sortBy === "author") {
+                sortedBooks.sort((a, b) => a.author.localeCompare(b.author));
+            } else if (sortBy === "date") {
+                sortedBooks.sort((a, b) => new Date(a.date) - new Date(b.date));
+            }
+
+            displayCatalog(sortedBooks);
+        }
+
+        // Initial display of all catalog items
+        window.onload = function () {
+            displayCatalog(books);
+        };
+    </script>
+
+</body>
+
+</html>
